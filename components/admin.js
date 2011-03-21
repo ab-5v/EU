@@ -108,4 +108,4 @@ euAdmin.prototype.addGroup = function(group, callback) {
     this._addItem('groups', group, callback);
 };
 
-exports.euAdmin = euAdmin;
+module.exports.euAdmin = euAdmin;

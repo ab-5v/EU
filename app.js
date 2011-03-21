@@ -1,16 +1,10 @@
-
 /**
  * Module dependencies.
  */
-
 var express = require('express');
-
-var app = module.exports = express.createServer();
-var euAdmin = require('./components/admin').euAdmin;
-var euAdmin = new euAdmin('localhost', 27017);
+var app = express.createServer();
 
 // Configuration
-
 app.configure(function(){
     app.set('views', __dirname + '/views');
     app.set('view engine', 'jade');
@@ -31,61 +25,8 @@ app.configure('production', function(){
 });
 
 // Routes
-
-app.get('/', function(req, res){
-    res.render('index', {
-        title: 'EU'
-    });
-});
-
-app.get('/admin', function(req, res){
-    euAdmin.getUsers(function(errors, data){
-        res.render('admin', {
-            title: 'Admin',
-            users: data.users,
-            groups: data.groups
-        });
-    });
-});
-
-app.post('/admin/adduser', function(req, res){
-    euAdmin.addUser(
-        {
-            name: req.param('name'),
-            group: req.param('group')
-        },
-        function(){
-            res.redirect('/admin')
-        }
-    );
-});
-app.post('/admin/addgroup', function(req, res){
-    euAdmin.addGroup(
-        {
-            name: req.param('name')
-        },
-        function(){
-            res.redirect('/admin')
-        }
-    );
-});
-app.get('/admin/removeuser', function(req, res){
-    euAdmin.removeUser(
-        req.param('id'),
-        function(){
-            res.redirect('/admin')
-        }
-    );
-});
-app.get('/admin/removegroup', function(req, res){
-    euAdmin.removeGroup(
-        req.param('id'),
-        function(){
-            res.redirect('/admin')
-        }
-    );
-});
-
+require('./routes/index')(app);
+require('./routes/admin')(app);
 
 if (!module.parent) {
   app.listen(3001);

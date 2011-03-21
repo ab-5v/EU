@@ -31,6 +31,8 @@ h2 Groups:
   - each group in groups
     dt #{group.name}
     dd #{group._id.toHexString()}
+    dd
+      a(href: 'admin/removegroup?id=' + group._id.toHexString()) remove
 - else
   p no groups.
 h2 Add new group:

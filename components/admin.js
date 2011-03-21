@@ -66,6 +66,28 @@ euAdmin.prototype.findById = function(id, callback) {
     });
 };
 
+euAdmin.prototype._removeItem = function(name, id, callback) {
+    this.getCollection(name, function(error, items) {
+        if (error) {
+            callback(error);
+        } else {
+            items.remove({_id: ObjectID.createFromHexString(id)}, function(error, result) {
+                if (error) {
+                    callback(error);
+                } else {
+                    callback(null, result);
+                }
+            });
+        }
+    });
+};
+
+euAdmin.prototype.removeUser = function(id, callback){
+    this._removeItem('users', id, callback);
+}
+euAdmin.prototype.removeGroup = function(id, callback){
+    this._removeItem('groups', id, callback);
+}
 euAdmin.prototype._addItem = function(name, item, callback) {
     this.getCollection(name, function(error, items) {
         if (error) {

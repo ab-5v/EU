@@ -71,6 +71,22 @@ app.post('/admin/addgroup', function(req, res){
         }
     );
 });
+app.get('/admin/removeuser', function(req, res){
+    euAdmin.removeUser(
+        req.param('id'),
+        function(){
+            res.redirect('/admin')
+        }
+    );
+});
+app.get('/admin/removegroup', function(req, res){
+    euAdmin.removeGroup(
+        req.param('id'),
+        function(){
+            res.redirect('/admin')
+        }
+    );
+});
 
 
 if (!module.parent) {

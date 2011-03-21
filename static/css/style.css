@@ -1,0 +1,13 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+dd {
+    font-family: Monaco, monospace;
+    font-size: 12px;
+    color: #DDD;
+}
+dd a {
+    color: #999;
+}

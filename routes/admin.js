@@ -1,9 +1,10 @@
-var euAdmin = new (require('../components/admin').euAdmin)('localhost', 27017);
+var User = require('../components/user').User;
+var Group = require('../components/group').Group;
 
 module.exports = function(app){
 
 app.get('/admin', function(req, res){
-    euAdmin.getUsers(function(errors, data){
+    User.getAll(function(errors, data){
         res.render('admin/index', {
             title: 'Admin',
             users: data.users,
@@ -12,7 +13,7 @@ app.get('/admin', function(req, res){
     });
 });
 app.post('/admin/adduser', function(req, res){
-    euAdmin.addUser(
+    User.add(
         {
             name: req.param('name'),
             group: req.param('group')
@@ -23,7 +24,7 @@ app.post('/admin/adduser', function(req, res){
     );
 });
 app.post('/admin/addgroup', function(req, res){
-    euAdmin.addGroup(
+    Group.add(
         {
             name: req.param('name')
         },
@@ -33,7 +34,7 @@ app.post('/admin/addgroup', function(req, res){
     );
 });
 app.get('/admin/removeuser', function(req, res){
-    euAdmin.removeUser(
+    User.remove(
         req.param('id'),
         function(){
             res.redirect('/admin')
@@ -41,7 +42,7 @@ app.get('/admin/removeuser', function(req, res){
     );
 });
 app.get('/admin/removegroup', function(req, res){
-    euAdmin.removeGroup(
+    Group.remove(
         req.param('id'),
         function(){
             res.redirect('/admin')

@@ -26,6 +26,7 @@ app.configure('production', function(){
 
 // Routes
 require('./routes/index')(app);
+require('./routes/class')(app);
 require('./routes/admin')(app);
 
 if (!module.parent) {

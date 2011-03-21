@@ -42,3 +42,21 @@ form(method: 'post', action: 'admin/addgroup')
       input(type: 'text', name: 'name', placeholder: 'Название группы', size: 10)
       &#160;
       input(type: 'submit', value: 'Добавить')
+
+h2 Events:
+- if (events.length)
+  dl
+  - each event in events
+    dt #{event.name}
+    dd #{event._id.toHexString()}
+    dd
+      a(href: 'admin/removeevent?id=' + event._id.toHexString()) remove
+- else
+  p no events.
+h2 Add new event:
+form(method: 'post', action: 'admin/addevent')
+  div
+    div
+      input(type: 'text', name: 'name', placeholder: 'Название события', size: 10)
+      &#160;
+      input(type: 'submit', value: 'Добавить')

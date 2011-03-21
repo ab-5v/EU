@@ -30,7 +30,21 @@ module.exports.User = Object.create(Item, {
                                                     if (error) {
                                                         callback(error);
                                                     } else {
-                                                        callback(null, {users: rUsers, groups: rGroups});
+                                                        _this.getCollection('events', function(error, events){
+                                                            if (error) {
+                                                                callback(error);
+                                                            } else {
+                                                                events.find({}, function(error, cursor){
+                                                                    cursor.toArray(function(error, rEvents){
+                                                                        if (error) {
+                                                                            callback(error);
+                                                                        } else {
+                                                                            callback(null, {users: rUsers, groups: rGroups, events: rEvents});
+                                                                        }
+                                                                    });
+                                                                });
+                                                            }
+                                                        });
                                                     }
                                                 });
                                             });

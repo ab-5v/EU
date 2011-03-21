@@ -1,5 +1,6 @@
 var User = require('../components/user').User;
 var Group = require('../components/group').Group;
+var Event = require('../components/event').Event;
 
 module.exports = function(app){
 
@@ -8,7 +9,8 @@ app.get('/admin', function(req, res){
         res.render('admin/index', {
             title: 'Admin',
             users: data.users,
-            groups: data.groups
+            groups: data.groups,
+            events: data.events
         });
     });
 });
@@ -33,6 +35,16 @@ app.post('/admin/addgroup', function(req, res){
         }
     );
 });
+app.post('/admin/addevent', function(req, res){
+    Event.add(
+        {
+            name: req.param('name')
+        },
+        function(){
+            res.redirect('/admin')
+        }
+    );
+});
 app.get('/admin/removeuser', function(req, res){
     User.remove(
         req.param('id'),
@@ -43,6 +55,14 @@ app.get('/admin/removeuser', function(req, res){
 });
 app.get('/admin/removegroup', function(req, res){
     Group.remove(
+        req.param('id'),
+        function(){
+            res.redirect('/admin')
+        }
+    );
+});
+app.get('/admin/removeevent', function(req, res){
+    Event.remove(
         req.param('id'),
         function(){
             res.redirect('/admin')

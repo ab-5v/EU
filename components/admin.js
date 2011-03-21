@@ -1,18 +1,18 @@
-var Db = require('mongodb').Db,
-  Server = require('mongodb').Server,
-  ObjectID = require('mongodb').ObjectID;
+var Db = require('mongodb').Db;
+var Server = require('mongodb').Server;
+var ObjectID = require('mongodb').BSONNative.ObjectID;
 
 euAdmin = function(host, port) {
-  this.db = new Db('eu', new Server(host, port, {auto_reconnect: true}, {}));
-  this.db.open(function(){});
+    this.db = new Db('eu', new Server(host, port, {auto_reconnect: true}, {}));
+    this.db.open(function(){});
 };
 
 euAdmin.prototype.getCollection = function(name, callback) {
-    this.db.collection(name, function(error, users) {
+    this.db.collection(name, function(error, items) {
         if(error){
             callback(error);
         } else {
-            callback(null, users);
+            callback(null, items);
         }
     });
 };

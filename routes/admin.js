@@ -1,12 +1,13 @@
 var User = require('../components/user').User;
 var Group = require('../components/group').Group;
 var Event = require('../components/event').Event;
+var render = require('../components/render');
 
 module.exports = function(app){
 
 app.get('/admin', function(req, res){
     User.getAll(function(errors, data){
-        res.render('admin/index', {
+        render(req, res, 'admin/index', {
             title: 'Admin',
             users: data.users,
             groups: data.groups,

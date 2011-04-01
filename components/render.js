@@ -3,11 +3,6 @@ module.exports = function(req, res, view, data){
         res.header('Content-Type', 'application/javascript; charset=utf-8');
         res.send(data);
     } else {
-        res.render('admin/index', {
-            title: 'Admin',
-            users: data.users,
-            groups: data.groups,
-            events: data.events
-        });
+        res.render('admin/index', data);
     }
 }

@@ -1,4 +1,5 @@
 var db = require('./db_mongolian');
+var ObjectID = require('mongodb').BSONNative.ObjectID;
 
 module.exports.Item = Object.create({}, {
     collection: {

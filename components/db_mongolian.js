@@ -6,6 +6,6 @@ var Mongolian = require("mongolian");
 var server = new Mongolian();
 
 // Get database
-var db = server.db("eu")
+var db = server.db("eu");
 
 module.exports = db;

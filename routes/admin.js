@@ -1,4 +1,4 @@
-var User = require('../components/user').User;
+var User = require('../components/user_m').User;
 var Group = require('../components/group').Group;
 var Event = require('../components/event').Event;
 var render = require('../components/render');

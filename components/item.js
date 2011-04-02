@@ -17,7 +17,6 @@ module.exports.Item = {
         });
     },
     add: function(item, callback){
-        console.log(this.collection, item);
         this.getCollection(function(error, items) {
             if (error) {
                 callback(error);

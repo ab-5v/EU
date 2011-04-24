@@ -1,4 +1,4 @@
-var db = require('./db');
+var db = require('../middleware/db');
 var Item = require('./item').Item;
 
 module.exports.User = Object.create(Item, {

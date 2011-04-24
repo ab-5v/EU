@@ -1,2 +1,6 @@
 .monitor
 eu.log
+cert/CA
+cert/SRV
+cert/users
+cert/newcerts

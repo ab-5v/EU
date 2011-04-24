@@ -1,60 +1,20 @@
-var db = require('./db').db;
+var db = require('./db');
 var Item = require('./item').Item;
-var ObjectID = require('mongodb').BSONNative.ObjectID;
 
 module.exports.User = Object.create(Item, {
-    collection: {
+    _collection: {
         value: 'users',
+        writable: true
     },
     getAll: {
         value: function(callback){
             var _this = this;
-            this.getCollection(function(error, users) {
-                if (error) {
-                    callback(error);
-                } else {
-                    users.find({}, function(error, cursor) {
-                        if (error) {
-                            callback(error);
-                        } else {
-                            cursor.toArray(function(error, rUsers) {
-                                if (error) {
-                                    callback(error);
-                                } else {
-                                    _this.getCollection('groups', function(error, groups){
-                                        if (error) {
-                                            callback(error);
-                                        } else {
-                                            groups.find({}, function(error, cursor){
-                                                cursor.toArray(function(error, rGroups){
-                                                    if (error) {
-                                                        callback(error);
-                                                    } else {
-                                                        _this.getCollection('events', function(error, events){
-                                                            if (error) {
-                                                                callback(error);
-                                                            } else {
-                                                                events.find({}, function(error, cursor){
-                                                                    cursor.toArray(function(error, rEvents){
-                                                                        if (error) {
-                                                                            callback(error);
-                                                                        } else {
-                                                                            callback(null, {users: rUsers, groups: rGroups, events: rEvents});
-                                                                        }
-                                                                    });
-                                                                });
-                                                            }
-                                                        });
-                                                    }
-                                                });
-                                            });
-                                        }
-                                    });
-                                }
-                            });
-                        }
+            this.collection.find().toArray(function(err, users){
+                db.collection('groups').find().toArray(function(err, groups){
+                    db.collection('events').find().toArray(function(err, events){
+                        callback(null, {users: users, groups: groups, events: events});
                     });
-                }
+                });
             });
         }
     }

@@ -1,9 +1,9 @@
-var Db = require('mongodb').Db;
-var Server = require('mongodb').Server;
+var Mongolian = require("mongolian");
 
-module.exports.db = (function(){
-    var db = new Db('eu', new Server('localhost', 27017, {auto_reconnect: true}, {}));
-    db.open(function(){});
-    console.log('db connector');
-    return db;
-})();
+var server = new Mongolian();
+
+// Get database
+var db = server.db("eu");
+db.id = require('mongodb').BSONPure.ObjectID;
+
+module.exports = db;

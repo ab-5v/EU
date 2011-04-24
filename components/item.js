@@ -1,46 +1,22 @@
-var db = require('./db').db;
-var ObjectID = require('mongodb').BSONNative.ObjectID;
+var db = require('./db');
 
-module.exports.Item = {
-    collection: '',
-    getCollection: function(collection, callback){
-        if (typeof collection === 'function') {
-            callback = collection;
-            collection = this.collection;
+module.exports.Item = Object.create({}, {
+    collection: {
+        get: function() {
+            if (typeof this._collection === 'string') {
+                this._collection = db.collection(this._collection);
+            }
+            return this._collection;
         }
-        db.collection(collection, function(error, items) {
-            if(error){
-                callback(error);
-            } else {
-                callback(null, items);
-            }
-        });
     },
-    add: function(item, callback){
-        this.getCollection(function(error, items) {
-            if (error) {
-                callback(error);
-            }
-            else {
-                items.insert(item, function() {
-                    callback(null, items);
-                });
-            }
-        });
+    add: {
+        value: function(item, callback){
+            this.collection.insert(item, callback);
+        }
     },
-    remove: function(id, callback){
-        this.getCollection(function(error, items) {
-            if (error) {
-                callback(error);
-            } else {
-                items.remove({_id: ObjectID.createFromHexString(id)}, function(error, result) {
-                    if (error) {
-                        callback(error);
-                    } else {
-                        callback(null, result);
-                    }
-                });
-            }
-        });
+    remove: {
+        value: function(id, callback){
+            this.collection.remove({_id: db.id.createFromHexString(id)}, callback);
+        }
     }
-};
+});

@@ -7,9 +7,15 @@ h2 Users:
     dt #{user.name}
     dd #{user._id.toHexString()}
     -var uGroup = groups.map(function(a){return a._id.toHexString() == user.group ? a.name : null;}).join(' ');
+    -var uid = user._id.toHexString();
     dd #{uGroup}
     dd
-      a(href: 'admin/removeuser?id=' + user._id.toHexString()) remove
+      Сертификат
+      a(href: '/' + uid + '/' + uid + '.p12') скачать
+      &nbsp;
+      a(href: 'admin/revokeuser?id=' + uid) отозвать и создать новый
+    dd
+      a(href: 'admin/removeuser?id=' + uid) remove
 - else
   p no users.
 h2 Add new user:

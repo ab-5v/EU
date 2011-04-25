@@ -14,6 +14,7 @@ app.configure(function(){
     app.use(express.session({secret: 'pass'}));
     app.use(app.router);
     app.use(express.static(__dirname + '/static'));
+    app.use(express.static(__dirname + '/cert/users'));
 });
 
 app.configure('development', function(){

@@ -2,6 +2,7 @@ var User = require('../components/user').User;
 var Group = require('../components/group').Group;
 var Event = require('../components/event').Event;
 var render = require('../middleware/render');
+var cert = require('../helper/cert').Cert;
 
 module.exports = function(app){
 
@@ -21,7 +22,8 @@ app.post('/admin/adduser', function(req, res){
             name: req.param('name'),
             group: req.param('group')
         },
-        function(){
+        function(err, data){
+            cert.create(data._id);
             res.redirect('/admin')
         }
     );
@@ -31,7 +33,7 @@ app.post('/admin/addgroup', function(req, res){
         {
             name: req.param('name')
         },
-        function(){
+        function(err, data){
             res.redirect('/admin')
         }
     );
@@ -47,12 +49,21 @@ app.post('/admin/addevent', function(req, res){
     );
 });
 app.get('/admin/removeuser', function(req, res){
+    var uid = req.param('id');
     User.remove(
-        req.param('id'),
+        uid,
         function(){
-            res.redirect('/admin')
+            cert.revoke(uid);
+            res.redirect('/admin');
         }
     );
+});
+app.get('/admin/revokeuser', function(req, res){
+    var uid = req.param('id');
+    cert.revoke(uid, function(){
+        cert.create(uid);
+        res.redirect('/admin');
+    });
 });
 app.get('/admin/removegroup', function(req, res){
     Group.remove(
